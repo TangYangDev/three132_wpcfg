@@ -27,7 +27,16 @@ export default class utilTHREE {
         return new THREE.Scene();
     }
 
-    renderer() {
-        return new THREE.WebGLRender();
+    /**
+     * [renderer 渲染器]
+     * @author tangyang 
+     * @date 2021-08-28
+     * @param {any} parameters [可选参数]
+     * @returns {Object} [渲染器对象]
+     */
+    renderer(parameters = {}) {
+        return new THREE.WebGLRenderer(parameters);
     }
+
+
 }
