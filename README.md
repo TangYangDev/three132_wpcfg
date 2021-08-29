@@ -14,3 +14,6 @@
 # 安装three-css2drender 插件，npm install --save three-css2drender(必须引入THREE后才能正确安装)
 ## 引入方式：import {CSS2dRrenderer, CSS2DObject} from 'three-css2drender';
 ## labelRenderer = new CSS2dRrenderer(); label = new CSS2DObject(text);
+
+# 安装jQuery npm install jquery
+# 安装axios npm install axios

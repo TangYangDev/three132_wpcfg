@@ -1,6 +1,10 @@
+/**
+ * 把THREE封装成工具对象
+ */
+
 import * as THREE from 'three';
 
-export default class utilTHREE {
+const utilTHREE = {
 
     /**
      * [perspectiveCamera 透视投影相机]
@@ -15,7 +19,7 @@ export default class utilTHREE {
      */
     perspectiveCamera(fov, aspect, near, far, zoom) {
         return new THREE.PerspectiveCamera(fov, aspect, near, far, zoom);
-    }
+    },
 
     /**
      * [scene 场景]
@@ -25,7 +29,7 @@ export default class utilTHREE {
      */
     scene() {
         return new THREE.Scene();
-    }
+    },
 
     /**
      * [renderer 渲染器]
@@ -36,7 +40,54 @@ export default class utilTHREE {
      */
     renderer(parameters = {}) {
         return new THREE.WebGLRenderer(parameters);
-    }
+    },
 
+
+    /**
+     * [mesh 网格]
+     * @author tangyang 
+     * @date 2021-08-28 
+     * @param {BufferGeometry} geo 
+     * @param {Material} mtl 
+     * @returns {Object} [网格对象]
+     */
+    mesh(geo, mtl) {
+        return new THREE.Mesh(geo, mtl);
+    },
+
+    /** 常用几何体 */
+    geometry: {
+        buf() {
+            return new THREE.BufferGeometry(); //基础啊buffer几何体
+        },
+        insBuf() {
+            return new THREE.InstancedBufferGeometry(); //基础buffer实例几何体
+        },
+        shape(shp, seg) {
+            return new THREE.ShapeBufferGeometry(shp, seg); //形状集合体 
+        }
+    },
+
+    /** 常用材质 */
+    material: {
+        standerd(param) {
+            return new THREE.MeshStandardMaterial(param); //标准几何体材质
+        },
+        lambert(param) {
+            return new THREE.MeshLambertMaterial(param); //兰伯特感光几何体材质
+        },
+        normal(param) {
+            return new THREE.MeshNormalMaterial(param);
+        }
+    },
+
+    /** 原始几何体 */
+    geo: {
+        box(w, h, dep) {
+            return new THREE.BoxGeometry(w, h, dep);//长方体
+        }
+    },
 
 }
+
+export default utilTHREE;
