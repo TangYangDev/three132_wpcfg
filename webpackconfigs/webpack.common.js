@@ -3,16 +3,10 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { resolve } = require('path');
 
 module.exports = {
-    devServer: {
-        //contentBase: './build',
-        port: 18088,
-        //hot: true, //热更新是否开启
-        open: true
-    },
     entry: "./src/index.js", //入口文件
     output: {
         path: resolve(__dirname, '../dist'),
-        filename: 'build.js' //输出文件
+        filename: 'bundle.js' //输出文件
     },
     /* loader配置 */
     module: {
@@ -31,7 +25,11 @@ module.exports = {
                 use: {
                     loader: "file-loader",
                     options: {
-                        outputPath: 'img/'
+                        //指定打包后的文件名称
+                        outputPath: 'images/',
+                        //指定打包后的文件名称
+                        name: '[name].[ext]'
+
                     }
                 }
             },

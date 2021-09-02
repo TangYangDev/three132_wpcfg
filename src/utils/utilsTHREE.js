@@ -4,7 +4,7 @@
 
 import * as THREE from 'three';
 
-const utilTHREE = {
+const utilsTHREE = {
 
     /**
      * [perspectiveCamera 透视投影相机]
@@ -65,6 +65,14 @@ const utilTHREE = {
         },
         shape(shp, seg) {
             return new THREE.ShapeBufferGeometry(shp, seg); //形状集合体 
+        },
+
+        //内置
+        box(w, h, dep) {
+            return new THREE.BoxGeometry(w, h, dep);//长方体
+        },
+        plane(w, h) {
+            return new THREE.PlaneGeometry(w, h); //二维集合体
         }
     },
 
@@ -77,17 +85,12 @@ const utilTHREE = {
             return new THREE.MeshLambertMaterial(param); //兰伯特感光几何体材质
         },
         normal(param) {
-            return new THREE.MeshNormalMaterial(param);
+            return new THREE.MeshNormalMaterial(param); //法线网格材质
+        },
+        basic(param) {
+            return new THREE.MeshBasicMaterial(param); //基础网格材质
         }
-    },
-
-    /** 原始几何体 */
-    geo: {
-        box(w, h, dep) {
-            return new THREE.BoxGeometry(w, h, dep);//长方体
-        }
-    },
-
+    }
 }
 
-export default utilTHREE;
+export default utilsTHREE;
