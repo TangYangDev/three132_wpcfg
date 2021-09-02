@@ -4,7 +4,7 @@
 
 import * as THREE from 'three';
 
-const utilsTHREE = {
+const threeUtils = {
 
     /**
      * [perspectiveCamera 透视投影相机]
@@ -20,6 +20,9 @@ const utilsTHREE = {
     perspectiveCamera(fov, aspect, near, far, zoom) {
         return new THREE.PerspectiveCamera(fov, aspect, near, far, zoom);
     },
+
+
+
 
     /**
      * [scene 场景]
@@ -93,4 +96,4 @@ const utilsTHREE = {
     }
 }
 
-export default utilsTHREE;
+export default threeUtils;
