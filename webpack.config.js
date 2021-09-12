@@ -1,63 +1,99 @@
-
+const webpack = require('webpack');
+const path = require('path');
+const {
+    CleanWebpackPlugin
+} = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
+const fs = require('fs');
 
-/* 获取文件绝对路径 */
-const { resolve } = require('path');
+const copyFile = [];
 
-//安装babel：npm install babel-loader @babel/core @babel/preset-env -D
-//           npm install --save @babel/polyfill
+//代码注入相关
+fs.readdir(`${__dirname}/example/index`, (err, files) => {
+    files.forEach(name => {
+        copyFile.push({
+            from: `example/index/${name}`,
+            to: `注入/${name}`
+        });
+    });
 
-//安装闭包方式：npm install --save-dev @babel/plugin-transform-runtime
-//             npm install --save/runtime 
+    if (err) {
+        console.error(err);
+    }
+});
 
 module.exports = {
-    mode: 'development', //production
-    /*webpack本地服务配置 */
-    devServer: {
-        //contentBase: './build',
-        port: 18088,
-        //hot: true, //热更新是否开启
-        open: true
+    mode: 'development',
+    //mode:'production',
+    entry: {
+        //需要打包的文件
+        libs: './editorgl/libs/index.js',
+        glInstance: './editorgl/index.js'
     },
-    /* 开启源码映射到浏览器控制台 
-       eval-cheap-module-source-map 开发环境配置推荐
-       cheap-module-source-map 线上环境配置推荐
-     */
-    devtool: 'eval-cheap-module-source-map',
-    entry: "./index.js", //入口文件
-    output: {
-        path: resolve(__dirname, 'dist'),
-        filename: 'build.js' //输出文件
-    },
-    /* loader配置 */
+    plugins: [
+        new CleanWebpackPlugin(),
+        new HtmlWebpackPlugin({
+            title: 'THREE',
+            inject: true,
+            filename: 'index.html',
+            template: './example/example.html'
+        }),
+        new MiniCssExtractPlugin({
+            filename: '[name].css'
+        }),
+        new webpack.HotModuleReplacementPlugin(),
+        new CopyPlugin(copyFile)
+    ],
     module: {
         rules: [
-            /* css loader */
+            {
+                test: /\.js$/,
+                exclude: /node_modules/,
+                loader: 'babel-loader',
+                options: {
+                    presets: [
+                        {
+                            plugins: [
+                                '@babel/plugin-proposal-class-properties'
+                            ]
+                        }
+                    ]
+                }
+            },
             {
                 test: /\.css$/,
                 use: [
-                    'style-loader',
+                    MiniCssExtractPlugin.loader,
                     'css-loader'
                 ]
             },
-            /* image loader */
             {
-                test: /\.(png|jpe?g|gif)$/,
-                use: {
-                    loader: "file-loader",
-                    options: {
-                        outputPath: 'img/'
+                test: /\.(png|jpg)$/,
+                use: [
+                    {
+                        loader: 'url-loader',
+                        options: {
+                            limit: 8192
+                        }
                     }
-                }
+                ]
+            },
+            {
+                test: /\.(csv|tsv)$/,
+                use: ['csv-loader']
+            },
+            {
+                test: /\.xml$/,
+                use: ['xml-loader']
             }
         ]
     },
-    /* plugin配置 */
-    plugins: [
-        new HtmlWebpackPlugin({
-            template: './index.html',
-            filename: 'index.html'
-        }),
-    ]
-}
-
+    output: {
+        filename: '[name].min.js',
+        chunkFilename: '[name].min.js',
+        path: path.resolve(__dirname, 'dist'),
+        publicPath: './'
+    }
+};
