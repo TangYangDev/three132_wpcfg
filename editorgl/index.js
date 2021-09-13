@@ -1,7 +1,4 @@
-// import * as THREE from 'three';
-
-// import glInstance from './editorgl/glInstance';
-import './libs/index';
+const THREE = require('./libs/index');
 
 let camera, scene, renderer;
 let geometry, material, mesh;
@@ -13,7 +10,7 @@ function initRenderer() {
     renderer.setClearColor(0x000000);
     renderer.setSize(window.innerWidth, window.innerHeight);
     document
-        .querySelector('test1')
+        .getElementById('test1')
         .appendChild(renderer.domElement);
 }
 
@@ -60,5 +57,3 @@ window.onload = () => {
     initGeometry();
     render();
 };
-// const glIns = new glInstance();
-// window.onload = glIns.init;

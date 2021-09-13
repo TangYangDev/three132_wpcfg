@@ -9,7 +9,7 @@ const app = express();
 const config = require('./webpack.dev.config');
 
 app.use(
-    express.static(path.join(__dirname, './src/static'))
+    express.static(path.join(__dirname, 'example/static'))
 );
 
 const PORT = 18460;
